@@ -1,5 +1,18 @@
 ﻿<?php include 'inc/header.php';?>
 <?php include 'inc/sidebar.php';?>
+<?php include '../classes/Brand.php'; ?>
+<?php include '../classes/Category.php'; ?>
+<?php include '../classes/Product.php'; ?>
+<?php
+    $pd = new Product();
+    if($_SERVER['REQUEST_METHOD']=='POST' && isset($_POST['submit'])){
+        $pres = $pd->productAdd($_POST,$_FILES);
+        if($pres){
+            echo $pres;
+        }
+    }
+
+?>
 <div class="grid_10">
     <div class="box round first grid">
         <h2>Add New Product</h2>
@@ -12,7 +25,7 @@
                         <label>Name</label>
                     </td>
                     <td>
-                        <input type="text" placeholder="Enter Product Name..." class="medium" />
+                        <input type="text" placeholder="Enter Product Name..." class="medium" name="productName"/>
                     </td>
                 </tr>
 				<tr>
@@ -20,11 +33,17 @@
                         <label>Category</label>
                     </td>
                     <td>
-                        <select id="select" name="select">
+                        <select id="select" name="catId">
                             <option>Select Category</option>
-                            <option value="1">Category One</option>
-                            <option value="2">Category Two</option>
-                            <option value="3">Category Three</option>
+                            <?php 
+                                $cat = new Category();
+                                $res = $cat->catList();
+                                if($res){
+                                    while($catval = $res->fetch_assoc()){
+                                
+                            ?>
+                            <option value="<?php echo $catval['catId']; ?>"><?php echo $catval['catName']; ?></option>
+                            <?php } } ?>
                         </select>
                     </td>
                 </tr>
@@ -33,11 +52,16 @@
                         <label>Brand</label>
                     </td>
                     <td>
-                        <select id="select" name="select">
+                        <select id="select" name="brandId">
                             <option>Select Brand</option>
-                            <option value="1">Brand One</option>
-                            <option value="2">Brand Two</option>
-                            <option value="3">Brand Three</option>
+                            <?php
+                              $bb = new Brand();
+                              $res = $bb->brandList();
+                              if($res){
+                                  while($bbval = $res->fetch_assoc()){  
+                            ?>
+                            <option value="<?php echo $bbval['brandId']; ?>"><?php echo $bbval['brandName'];  ?></option>
+                            <?php } } ?>
                         </select>
                     </td>
                 </tr>
@@ -47,7 +71,7 @@
                         <label>Description</label>
                     </td>
                     <td>
-                        <textarea class="tinymce"></textarea>
+                        <textarea class="tinymce" name="body"></textarea>
                     </td>
                 </tr>
 				<tr>
@@ -55,7 +79,7 @@
                         <label>Price</label>
                     </td>
                     <td>
-                        <input type="text" placeholder="Enter Price..." class="medium" />
+                        <input type="text" placeholder="Enter Price..." class="medium" name="price"/>
                     </td>
                 </tr>
             
@@ -64,7 +88,7 @@
                         <label>Upload Image</label>
                     </td>
                     <td>
-                        <input type="file" />
+                        <input type="file" name="image"/>
                     </td>
                 </tr>
 				
@@ -73,7 +97,7 @@
                         <label>Product Type</label>
                     </td>
                     <td>
-                        <select id="select" name="select">
+                        <select id="select" name="type">
                             <option>Select Type</option>
                             <option value="1">Featured</option>
                             <option value="2">Non-Featured</option>

@@ -1,14 +1,14 @@
-﻿<?php include 'inc/header.php';?>
+<?php include 'inc/header.php';?>
 <?php include 'inc/sidebar.php';?>
-<?php include '../classes/Category.php'; ?>
+<?php include '../classes/Brand.php'; ?>
 <?php
-    $cat = new Category();
+    $bb = new Brand();
 ?>
 <?php
     if($_SERVER['REQUEST_METHOD']=='POST'){
-        $catName = $_POST['catName'];
+        $brandName = $_POST['brandName'];
 
-        $catChk = $cat->addCat($catName);       
+        $brandChk = $bb->addBrand($brandName);       
     }
 ?>
         <div class="grid_10">
@@ -17,14 +17,14 @@
                <div class="block copyblock"> 
                  <form action="" method="post">
                     <?php
-                         if(isset($catChk)){
-                            echo $catChk;
+                         if(isset($brandChk)){
+                            echo $brandChk;
                         }
                     ?>
                     <table class="form">					
                         <tr>
                             <td>
-                                <input type="text" name = "catName" placeholder="Enter Category Name..." class="medium" />
+                                <input type="text" name = "brandName" placeholder="Enter Category Name..." class="medium" />
                             </td>
                         </tr>
 						<tr> 

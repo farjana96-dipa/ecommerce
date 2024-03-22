@@ -1,13 +1,13 @@
-﻿<?php include 'inc/header.php';?>
+<?php include 'inc/header.php';?>
 <?php include 'inc/sidebar.php';?>
-<?php include '../classes/Category.php'; ?>
+<?php include '../classes/Brand.php'; ?>
 <?php
-    $cat = new Category();
+    $bb = new Brand();
 ?>
 <?php
 	if(isset($_GET['delid'])){
 		$delid = $_GET['delid'];
-		$del_res = $cat->catDelete($delid);
+		$del_res = $bb->brandDelete($delid);
 		if($del_res){
 			echo $del_res;
 		}
@@ -28,7 +28,7 @@
 					</thead>
 					<tbody>
 					<?php
-						$resoflist = $cat->catList();
+						$resoflist = $bb->brandList();
 						if($resoflist){
 							$i=0;
 							while($listval = $resoflist->fetch_assoc()){
@@ -36,8 +36,8 @@
 					?>
 						<tr class="even gradeC">
 							<td><?php echo $i; ?></td>
-							<td><?php echo $listval['catName']; ?></td>
-							<td><a href="catedit.php?catid=<?php echo $listval['catId']; ?>">Edit</a> || <a onclick = "return confirm('Are you sure to delete it?');" href="?delid=<?php echo $listval['catId']; ?>" >Delete</a></td>
+							<td><?php echo $listval['brandName']; ?></td>
+							<td><a href="brandedit.php?brandid=<?php echo $listval['brandId']; ?>">Edit</a> || <a onclick = "return confirm('Are you sure to delete it?');" href="?delid=<?php echo $listval['brandId']; ?>" >Delete</a></td>
 						</tr>
 					<?php } } ?>
 					</tbody>
