@@ -1,12 +1,20 @@
-﻿<?php include 'inc/header.php';?>
+<?php include 'inc/header.php';?>
 <?php include 'inc/sidebar.php';?>
 <?php include '../classes/Brand.php'; ?>
 <?php include '../classes/Category.php'; ?>
 <?php include '../classes/Product.php'; ?>
 <?php
+    if(isset($_GET['id'])){
+        $pdId = $_GET['id'];
+    }
+    else{
+        header('Location:productlist.php');
+    }
+?>
+<?php
     $pd = new Product();
     if($_SERVER['REQUEST_METHOD']=='POST' && isset($_POST['submit'])){
-        $pres = $pd->productAdd($_POST,$_FILES);
+        $pres = $pd->productUpdate($_POST,$_FILES,$pdId);
         if($pres){
             echo $pres;
         }
@@ -19,13 +27,18 @@
         <div class="block">               
          <form action="" method="post" enctype="multipart/form-data">
             <table class="form">
-               
+               <?php 
+                    $select = $pd->productListId($pdId);
+                    if($select){
+                        while($selres = $select->fetch_assoc()){
+                    
+               ?>
                 <tr>
                     <td>
                         <label>Name</label>
                     </td>
                     <td>
-                        <input type="text" placeholder="Enter Product Name..." class="medium" name="productName"/>
+                        <input type="text" value="<?php echo $selres['productName']; ?>" class="medium" name="productName"/>
                     </td>
                 </tr>
 				<tr>
@@ -42,7 +55,9 @@
                                     while($catval = $res->fetch_assoc()){
                                 
                             ?>
-                            <option value="<?php echo $catval['catId']; ?>"><?php echo $catval['catName']; ?></option>
+                            <option 
+                            <?php if($selres['catId'] == $catval['catId']){ ?> selected = "selected"; <?php } ?> 
+                            value="<?php echo $catval['catId']; ?>"><?php echo $catval['catName']; ?></option>
                             <?php } } ?>
                         </select>
                     </td>
@@ -60,7 +75,9 @@
                               if($res){
                                   while($bbval = $res->fetch_assoc()){  
                             ?>
-                            <option value="<?php echo $bbval['brandId']; ?>"><?php echo $bbval['brandName'];  ?></option>
+                            <option 
+                            <?php if($selres['brandId'] == $bbval['brandId']) { ?> selected = "selected"; <?php } ?>
+                            value="<?php echo $bbval['brandId']; ?>"><?php echo $bbval['brandName'];  ?></option>
                             <?php } } ?>
                         </select>
                     </td>
@@ -71,7 +88,7 @@
                         <label>Description</label>
                     </td>
                     <td>
-                        <textarea class="tinymce" name="body"></textarea>
+                        <textarea class="tinymce" name="body" ><?php echo $selres['body']; ?></textarea>
                     </td>
                 </tr>
 				<tr>
@@ -79,7 +96,7 @@
                         <label>Price</label>
                     </td>
                     <td>
-                        <input type="text" placeholder="Enter Price..." class="medium" name="price"/>
+                        <input type="text" value="<?php echo $selres['price']; ?>" class="medium" name="price"/>
                     </td>
                 </tr>
             
@@ -88,6 +105,7 @@
                         <label>Upload Image</label>
                     </td>
                     <td>
+                        <img src="<?php echo $selres['image']; ?>" alt="" height="70px" width="120px"><br>
                         <input type="file" name="image"/>
                     </td>
                 </tr>
@@ -99,9 +117,13 @@
                     <td>
                         <select id="select" name="type">
                             <option>Select Type</option>
-                            <option value="Featured">Featured</option>
-                            <option value="Non-Featured">Non-Featured</option>
+                            <?php if($selres['type']=='Featured'){ ?>
+                            <option value="Featured" selected="selected">Featured</option>
                             <option value="General">General</option>
+                            <?php } else { ?>
+                                <option value="Featured">Featured</option>
+                                <option value="General" selected="selected">General</option>
+                            <?php } ?>
                         </select>
                     </td>
                 </tr>
@@ -112,6 +134,7 @@
                         <input type="submit" name="submit" Value="Save" />
                     </td>
                 </tr>
+                <?php } } ?>
             </table>
             </form>
         </div>

@@ -1,4 +1,6 @@
 <?php
+    include '../lib/Database.php';
+    include '../helpers/format.php';
     include '../lib/Session.php';
     Session::checkSession();
 ?>

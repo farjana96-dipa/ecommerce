@@ -1,6 +1,5 @@
 <?php
-    include_once '../lib/Database.php';
-    include_once '../helpers/format.php';
+  
 ?>
 <?php
     class Brand{
