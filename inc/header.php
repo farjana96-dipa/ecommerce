@@ -16,6 +16,7 @@ $fm = new Format();
 
 	$pd = new Product();
 	$ct = new Cart();
+	$cat = new Category();
 ?>
 <?php
   header("Cache-Control: no-cache, must-revalidate");
@@ -61,7 +62,20 @@ $fm = new Format();
 					<div class="cart">
 						<a href="#" title="View my shopping cart" rel="nofollow">
 								<span class="cart_title">Cart</span>
-								<span class="no_product">(empty)</span>
+								<span class="no_product">
+  								<?php
+								
+								$chk = $ct->checkCart();
+								if($chk){
+									$q = Session::get("quantity");
+									$s = Session::get("sum");
+									echo "(".$q.")"." TK. ".$s;
+								}else{
+									echo "(Empty)";
+								}
+								?>
+
+								</span>
 							</a>
 						</div>
 			      </div>

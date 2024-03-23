@@ -104,8 +104,8 @@
             $pdtype = $this->fm->validation($data['type']);
             $pdtype = mysqli_real_escape_string($this->db->link,$pdtype);
 
-            $pdbody = $this->fm->validation($data['body']);
-            $pdbody = mysqli_real_escape_string($this->db->link,$pdbody);
+           // $pdbody = $this->fm->validation($data['body']);
+            $pdbody = mysqli_real_escape_string($this->db->link,$data['body']);
 
             $brandId = $this->fm->validation($data['brandId']);
             $brandId = mysqli_real_escape_string($this->db->link,$brandId);
@@ -208,7 +208,33 @@
             return $select_res;
         }
         
+        public function newProduct(){
+            $select = "SELECT *FROM tbl_product WHERE type = 'General' limit 4";
+            $select_res = $this->db->select($select);
+            return $select_res;
+        }
 
+
+        public function getIphone(){
+            $select = "SELECT *FROM tbl_product WHERE brandId = '5' limit 1";
+            $select_res = $this->db->select($select);
+            return $select_res;
+        }
+        public function getAcer(){
+            $select = "SELECT *FROM tbl_product WHERE brandId = '1' limit 1";
+            $select_res = $this->db->select($select);
+            return $select_res;
+        }
+        public function getSamsung(){
+            $select = "SELECT *FROM tbl_product WHERE brandId = '4' limit 1";
+            $select_res = $this->db->select($select);
+            return $select_res;
+        }
+        public function getCanon(){
+            $select = "SELECT *FROM tbl_product WHERE brandId = '2' limit 1";
+            $select_res = $this->db->select($select);
+            return $select_res;
+        }
 
     }
 ?>

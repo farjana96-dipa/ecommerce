@@ -34,31 +34,19 @@
     		<div class="clear"></div>
     	</div>
 			<div class="section group">
+			<?php
+					$getpd = $pd->newProduct();
+					if($getpd){
+						while($newproduct = $getpd->fetch_assoc()){
+				?>
 				<div class="grid_1_of_4 images_1_of_4">
-					 <a href="preview.php"><img src="images/new-pic1.jpg" alt="" /></a>
-					 <h2>Lorem Ipsum is simply </h2>
-					 <p><span class="price">$403.66</span></p>
-				     <div class="button"><span><a href="preview.php" class="details">Details</a></span></div>
+					 <a href="preview.php?newid=<?php echo $newproduct['productId']; ?>"><img src="admin/<?php echo $newproduct['image']; ?>" alt="" height="250px" width="220px"/></a>
+					 <h2><?php echo $newproduct['productName']; ?> </h2>
+					 <p><span class="price"><?php echo $newproduct['price']; ?></span></p>
+				     <div class="button"><span><a href="preview.php?proid=<?php echo $newproduct['productId']; ?>" class="details">Details</a></span></div>
 				</div>
-				<div class="grid_1_of_4 images_1_of_4">
-					<a href="preview.php"><img src="images/new-pic2.jpg" alt="" /></a>
-					 <h2>Lorem Ipsum is simply </h2>
-					 <p><span class="price">$621.75</span></p> 
-				     <div class="button"><span><a href="preview.php" class="details">Details</a></span></div>
-				</div>
-				<div class="grid_1_of_4 images_1_of_4">
-					<a href="preview.php"><img src="images/feature-pic2.jpg" alt="" /></a>
-					 <h2>Lorem Ipsum is simply </h2>
-					 <p><span class="price">$428.02</span></p>
-				     <div class="button"><span><a href="preview.php" class="details">Details</a></span></div>
-				</div>
-				<div class="grid_1_of_4 images_1_of_4">
-				 <img src="images/new-pic3.jpg" alt="" />
-					 <h2>Lorem Ipsum is simply </h2>					 
-					 <p><span class="price">$457.88</span></p>
-
-				     <div class="button"><span><a href="preview.php" class="details">Details</a></span></div>
-				</div>
+				<?php } } ?>
+			
 			</div>
     </div>
  </div>
