@@ -2,7 +2,7 @@
  
 ?>
 <?php
-    class User{
+    class Customer{
         private $db;
         private $fm;
 
