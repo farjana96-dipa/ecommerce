@@ -92,8 +92,18 @@
 
         public function checkCart(){
             $sid = session_id();
-            $query = "SELECT *FROM tbl_cart WHERE  sId = '$sid' ";
+            $query = "SELECT * FROM tbl_cart WHERE  sId = '$sid' ";
             $res = $this->db->select($query);
             return $res;
+        }
+
+
+        //delete all cart items function
+        public function delete_cart_items(){
+            $sid = session_id();
+            $sql = "DELETE FROM tbl_cart WHERE sId = '$sid' ";
+            $res = $this->db->delete($sql);
+            return $res;
+            
         }
 }

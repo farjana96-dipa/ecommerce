@@ -19,12 +19,17 @@ $fm = new Format();
 	$cat = new Category();
 	$cmr = new Customer();
 ?>
+
+
+
 <?php
   header("Cache-Control: no-cache, must-revalidate");
   header("Pragma: no-cache"); 
   header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); 
   header("Cache-Control: max-age=2592000");
 ?>
+
+
 <!DOCTYPE HTML>
 <head>
 <title>Store Website</title>
@@ -80,7 +85,29 @@ $fm = new Format();
 							</a>
 						</div>
 			      </div>
-		   <div class="login"><a href="login.php">Login</a></div>
+
+				  <!-- Customer logout mechanism -->
+<?php
+
+if (isset($_GET["cid"])) {
+	//delete all cart items if customer logout
+	$delete = $ct->delete_cart_items();
+	Session::destroy();
+}
+
+?>
+
+		   <div class="login">
+			<?php 
+			   $log = Session::get("cuslogin");
+			   if($log!=true){ ?>
+				<a href="login.php">Login</a>
+			  <?php }
+			   else{ ?>
+				<a href="?cid=<?php echo Session::get('cusid')?>">Logout</a>
+			  <?php } ?>
+		
+			</div>
 		 <div class="clear"></div>
 	 </div>
 	 <div class="clear"></div>
@@ -90,7 +117,20 @@ $fm = new Format();
 	  <li><a href="index.php">Home</a></li>
 	  <li><a href="products.php">Products</a> </li>
 	  <li><a href="topbrands.php">Top Brands</a></li>
+
+	 <!-- Hide the cart page is cart is empty -->
+	 <?php if($ct->checkCart()) {?>
 	  <li><a href="cart.php">Cart</a></li>
+	  <li><a href="payment.php">Payment</a></li>
+	 <?php }?>
+
+	  <!-- Show profile page if customer is logged in -->
+	  <?php if(Session::get('cuslogin') == true) {?>
+
+	  	<li><a href="profile.php">Profile</a> </li>
+
+	 <?php }?>
+
 	  <li><a href="contact.php">Contact</a> </li>
 	  <div class="clear"></div>
 	</ul>
